@@ -7,7 +7,7 @@ HabitAI - это веб-приложение, помогающее пользо�
 
 1. Клонируйте репозиторий:
    ```sh
-   git clone https://github.com/nigjke/habitai-frontend.git
+   git clone https://github.com/nigjke/HabitAI.git
    ```
 2. Перейдите в директорию проекта:
    ```sh
