@@ -17,8 +17,8 @@ const Input = ({ placeholder, suptitle }: Props) => {
         InputProps={{
           sx: {
             borderRadius: "16px !important",
-            bgcolor: "#F7FBFF ",
-            color: "text.primary",
+            bgcolor: "#F7FBFF",
+            color: "#000000 !important",
           },
         }}
       />

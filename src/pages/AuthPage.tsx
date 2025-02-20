@@ -5,6 +5,7 @@ import Input from "../components/Input/Input";
 import GoogleIcon from "../assets/Google.svg";
 import FacebookIcon from "../assets/Facebook.svg";
 import ThemeToggleButton from "../components/ThemeToggleButton/ThemeToggleButton";
+import "./AuthPage.css";
 
 const AuthPage = () => {
   return (
@@ -70,7 +71,7 @@ Sign in to start managing your projects."
           <Button
             variant="contained"
             fullWidth
-            sx={{ height: "50px", bgcolor: "#162D3A" }}
+            sx={{ height: "50px", bgcolor: "#162D3A", color: "#FFFFFF" }}
           >
             Sign in
           </Button>
@@ -98,7 +99,7 @@ Sign in to start managing your projects."
               m: "15px 0",
               position: "absolute",
               bottom: "0",
-              color: "#959CB6",
+              color: "text.primary",
             }}
           >
             © 2023 ALL RIGHTS RESERVED
