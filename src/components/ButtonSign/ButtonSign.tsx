@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button, useMediaQuery } from "@mui/material";
 
 type Props = {
   icon: string;
@@ -6,6 +6,7 @@ type Props = {
 };
 
 const ButtonSign = ({ icon, content }: Props) => {
+  const isNote = useMediaQuery("(max-width: 1280px)");
   return (
     <Button
       variant="contained"
@@ -13,7 +14,12 @@ const ButtonSign = ({ icon, content }: Props) => {
       startIcon={
         <img src={icon} alt="icon" style={{ width: 28, height: 28 }} />
       }
-      sx={{ height: "50px", bgcolor: "#F3F9FA", color: "#000", mb: "20px" }}
+      sx={{
+        height: isNote ? "40px" : "60px",
+        bgcolor: "#F3F9FA",
+        color: "#000",
+        mb: "20px",
+      }}
     >
       {content}
     </Button>

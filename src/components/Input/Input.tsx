@@ -7,8 +7,9 @@ type Props = {
 
 const Input = ({ placeholder, suptitle }: Props) => {
   const isMobile = useMediaQuery("(max-width: 768px)");
+  const isNote = useMediaQuery("(max-width: 1280px)");
   return (
-    <Box sx={{ width: "100%", maxWidth: "500px", mt: "20px" }}>
+    <Box sx={{ width: "100%", maxWidth: "800px", mt: "20px" }}>
       <Typography sx={{ mb: "5px" }}>{suptitle}</Typography>
       <TextField
         id="outlined-basic"
@@ -17,10 +18,13 @@ const Input = ({ placeholder, suptitle }: Props) => {
         variant="outlined"
         InputProps={{
           sx: {
+            height: isNote ? "40px" : "60px",
+            display: "flex",
+            alignItems: "center",
             borderRadius: "16px !important",
             bgcolor: "#F7FBFF",
             color: "#000000 !important",
-            fontSize: isMobile ? "8px" : "14px",
+            fontSize: isMobile ? "10px" : "14px",
           },
         }}
       />
