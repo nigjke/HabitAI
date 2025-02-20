@@ -18,8 +18,8 @@ const AuthPage = () => {
         minHeight: "100vh",
         bgcolor: "background.default",
         display: "flex",
-        flexDirection: "column", // Фикс для прижатия футера
-        justifyContent: "space-between", // Контент + футер
+        flexDirection: "column",
+        justifyContent: "space-between",
         alignItems: "center",
         p: 2,
         boxSizing: "border-box",
@@ -27,12 +27,13 @@ const AuthPage = () => {
     >
       <Box
         sx={{
-          flexGrow: 1, // Контент займет всю высоту, оставляя место для футера
+          flexGrow: 1,
           display: "flex",
-          justifyContent: "center",
           flexDirection: isMobile ? "column-reverse" : "row",
           alignItems: "center",
+          justifyContent: "center",
           width: "100%",
+          gap: isMobile ? 2 : 4,
         }}
       >
         <Box
@@ -41,7 +42,7 @@ const AuthPage = () => {
             borderRadius: 7,
             width: "100%",
             maxWidth: "1200px",
-            padding: isTablet ? "100px 0" : "0",
+            padding: isTablet ? "50px 20px" : "20px",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
@@ -51,13 +52,14 @@ const AuthPage = () => {
             sx={{
               borderColor: "primary.main",
               borderRadius: 7,
-              maxWidth: "800px !important",
-              maxHeight: isMobile ? "100% " : "calc(100vh - 100px)",
+              maxWidth: "800px",
+              maxHeight: "100%",
               display: "flex",
               position: "relative",
               justifyContent: "center",
               flexDirection: "column",
               alignItems: "center",
+              padding: "20px",
             }}
           >
             <Box
@@ -90,7 +92,7 @@ const AuthPage = () => {
               variant="contained"
               fullWidth
               sx={{
-                height: isNote ? "40px" : "60px",
+                height: isNote ? "40px" : "50px",
                 bgcolor: "#162D3A",
                 color: "#FFFFFF",
                 fontSize: isMobile ? "12px" : "16px",
@@ -103,7 +105,7 @@ const AuthPage = () => {
                 display: "flex",
                 alignItems: "center",
                 width: "100%",
-                my: 3,
+                my: 2,
               }}
             >
               <Box sx={{ flexGrow: 1, borderTop: "1px solid #ccc" }}></Box>
@@ -112,19 +114,19 @@ const AuthPage = () => {
             </Box>
             <Box
               sx={{
-                display: isMobile ? "flex" : "block",
-                justifyContent: "space-between",
+                display: "flex",
+                justifyContent: "center",
                 width: "100%",
                 gap: "16px",
               }}
             >
               <ButtonSign
                 icon={GoogleIcon}
-                content={isMobile ? "Google" : "Sign in with Google"}
+                content={isNote ? "Google" : "Sign in with Google"}
               />
               <ButtonSign
                 icon={FacebookIcon}
-                content={isMobile ? "Facebook" : "Sign in with Facebook"}
+                content={isNote ? "Facebook" : "Sign in with Facebook"}
               />
             </Box>
             <Typography
@@ -142,12 +144,9 @@ const AuthPage = () => {
             borderRadius: 7,
             width: "100%",
             maxWidth: "1200px",
-            height: isMobile ? "300px" : "calc(100vh - 100px)",
+            height: isMobile ? "250px" : "calc(100vh - 150px)",
             display: "flex",
-            flexDirection: "column",
             boxSizing: "border-box",
-            minHeight: "180px",
-            padding: isMobile ? "20px 0" : "20px",
           }}
         >
           <Box
