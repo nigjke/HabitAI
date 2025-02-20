@@ -4,6 +4,7 @@ import Header from "../components/Header/Header";
 import Input from "../components/Input/Input";
 import GoogleIcon from "../assets/Google.svg";
 import FacebookIcon from "../assets/Facebook.svg";
+import ThemeToggleButton from "../components/ThemeToggleButton/ThemeToggleButton";
 
 const AuthPage = () => {
   return (
@@ -46,6 +47,9 @@ const AuthPage = () => {
             alignItems: "center",
           }}
         >
+          <Box sx={{ position: "absolute", top: 10, right: 10 }}>
+            <ThemeToggleButton />
+          </Box>
           <Header
             title="Welcome Back 👋"
             subtitle="Today is a new day. It's your day. You shape it. 
