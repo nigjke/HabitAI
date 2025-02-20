@@ -15,7 +15,11 @@ const Input = ({ placeholder, suptitle }: Props) => {
         label={placeholder}
         variant="outlined"
         InputProps={{
-          sx: { borderRadius: "16px", bgcolor: "#F7FBFF " },
+          sx: {
+            borderRadius: "16px !important",
+            bgcolor: "#F7FBFF ",
+            color: "text.primary",
+          },
         }}
       />
     </Box>

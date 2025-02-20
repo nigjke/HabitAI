@@ -42,13 +42,32 @@ export const ThemeContextProvider: React.FC<{ children: React.ReactNode }> = ({
             ? {
                 primary: { main: "#373737" },
                 background: { default: "#f5f5f5", paper: "#ffffff" },
-                text: { primary: "#000000", secondary: "#333333" },
+                text: { primary: "#000000", secondary: "#b0b0b0" },
               }
             : {
                 primary: { main: "#ffffff" },
                 background: { default: "#373737", paper: "#1e1e1e" },
                 text: { primary: "#ffffff", secondary: "#b0b0b0" },
               }),
+        },
+        components: {
+          MuiButton: {
+            styleOverrides: {
+              root: {
+                borderRadius: "16px",
+              },
+            },
+          },
+          MuiOutlinedInput: {
+            styleOverrides: {
+              root: {
+                borderRadius: "16px",
+              },
+              notchedOutline: {
+                borderRadius: "16px",
+              },
+            },
+          },
         },
       }),
     [mode]
