@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Typography, useMediaQuery } from "@mui/material";
 import ButtonSign from "../components/ButtonSign/ButtonSign";
 import Header from "../components/Header/Header";
 import Input from "../components/Input/Input";
@@ -8,14 +8,16 @@ import ThemeToggleButton from "../components/ThemeToggleButton/ThemeToggleButton
 import "./AuthPage.css";
 
 const AuthPage = () => {
+  const isMobile = useMediaQuery("(max-width: 768px)");
+  const isTablet = useMediaQuery("(max-width: 1024px)");
   return (
     <Box
       sx={{
         height: "100vh",
-        overflow: "hidden",
         bgcolor: "background.default",
         display: "flex",
         justifyContent: "center",
+        flexDirection: isMobile ? "column-reverse" : "row",
         alignItems: "center",
         p: 2,
         boxSizing: "border-box",
@@ -48,7 +50,14 @@ const AuthPage = () => {
             alignItems: "center",
           }}
         >
-          <Box sx={{ position: "absolute", top: 10, right: 10 }}>
+          <Box
+            sx={{
+              position: "absolute",
+              top: 0,
+              right: 0,
+              display: isTablet ? "none" : "inline-block",
+            }}
+          >
             <ThemeToggleButton />
           </Box>
           <Header
@@ -61,9 +70,9 @@ Sign in to start managing your projects."
           <Typography
             sx={{
               alignSelf: "end",
-              maxWidth: "500px",
-              m: "15px 0",
+              m: "10px 0",
               color: "#1E4AE9",
+              fontSize: isMobile ? "8px" : "14px",
             }}
           >
             <a href="#">Forgot Password?</a>
@@ -71,35 +80,35 @@ Sign in to start managing your projects."
           <Button
             variant="contained"
             fullWidth
-            sx={{ height: "50px", bgcolor: "#162D3A", color: "#FFFFFF" }}
+            sx={{
+              height: isMobile ? "30px" : "50px",
+              bgcolor: "#162D3A",
+              color: "#FFFFFF",
+              fontSize: isMobile ? "10px" : "16px",
+            }}
           >
             Sign in
           </Button>
-          <div className="flex items-center w-full my-12">
-            <div className="flex-1 border-t border-gray-300"></div>
-            <span className="mx-4 text-gray-600">Or</span>
-            <div className="flex-1 border-t border-gray-300"></div>
-          </div>
+          <Box
+            sx={{ display: "flex", alignItems: "center", width: "100%", my: 3 }}
+          >
+            <Box sx={{ flexGrow: 1, borderTop: "1px solid #ccc" }}></Box>
+            <Typography sx={{ mx: 2, color: "gray" }}>Or</Typography>
+            <Box sx={{ flexGrow: 1, borderTop: "1px solid #ccc" }}></Box>
+          </Box>
           <ButtonSign icon={GoogleIcon} content="Sign in with Google" />
           <ButtonSign icon={FacebookIcon} content="Sign in with Facebook" />
-          <Typography
-            sx={{
-              maxWidth: "500px",
-              m: "15px 0",
-            }}
-          >
-            Don't you have an account?
+          <Typography sx={{ m: "10px 0", fontSize: isMobile ? "8px" : "14px" }}>
+            Don't have an account?
             <a className="text-blue-500 ml-2" href="#">
               Sign up
             </a>
           </Typography>
           <Typography
             sx={{
-              maxWidth: "500px",
-              m: "15px 0",
-              position: "absolute",
-              bottom: "0",
+              m: "10px 0",
               color: "text.primary",
+              fontSize: isMobile ? "8px" : "14px",
             }}
           >
             © 2023 ALL RIGHTS RESERVED
@@ -108,21 +117,20 @@ Sign in to start managing your projects."
       </Box>
       <Box
         sx={{
-          borderColor: "primary.main",
           borderRadius: 7,
           width: "100%",
           maxWidth: "1200px",
-          height: "calc(100vh - 100px)",
+          height: isMobile ? "300px" : "calc(100vh - 100px)",
           display: "flex",
           flexDirection: "column",
           position: "relative",
           boxSizing: "border-box",
+          padding: "20px",
         }}
       >
         <Box
           className="bg-[url('../assets/Art.jpg')] bg-cover bg-center h-screen w-full"
           sx={{
-            height: "100vh",
             borderRadius: 7,
             backgroundSize: "cover",
             backgroundPosition: "center",

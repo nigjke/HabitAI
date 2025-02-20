@@ -1,4 +1,4 @@
-import { Box, TextField, Typography } from "@mui/material";
+import { Box, TextField, Typography, useMediaQuery } from "@mui/material";
 
 type Props = {
   placeholder: string;
@@ -6,6 +6,7 @@ type Props = {
 };
 
 const Input = ({ placeholder, suptitle }: Props) => {
+  const isMobile = useMediaQuery("(max-width: 768px)");
   return (
     <Box sx={{ width: "100%", maxWidth: "500px", mt: "20px" }}>
       <Typography sx={{ mb: "5px" }}>{suptitle}</Typography>
@@ -19,6 +20,7 @@ const Input = ({ placeholder, suptitle }: Props) => {
             borderRadius: "16px !important",
             bgcolor: "#F7FBFF",
             color: "#000000 !important",
+            fontSize: isMobile ? "8px" : "14px",
           },
         }}
       />
