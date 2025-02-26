@@ -6,11 +6,27 @@ import GoogleIcon from "../assets/Google.svg";
 import FacebookIcon from "../assets/Facebook.svg";
 import ThemeToggleButton from "../components/ThemeToggleButton/ThemeToggleButton";
 import "./AuthPage.css";
+import { login, register } from "../api/auth";
+import { useState } from "react";
 
 const AuthPage = () => {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const isTablet = useMediaQuery("(max-width: 1024px)");
   const isNote = useMediaQuery("(max-width: 1280px)");
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
+  const [isSignUp, setIsSignUp] = useState(false); // 🔄 Переключатель между входом и регистрацией
+
+  const handleAuth = async () => {
+    const response = isSignUp
+      ? await register(email, password)
+      : await login(email, password);
+    setMessage(
+      response.message || (isSignUp ? "Регистрация успешна!" : "Успешный вход!")
+    );
+  };
 
   return (
     <Box
@@ -73,11 +89,25 @@ const AuthPage = () => {
               <ThemeToggleButton />
             </Box>
             <Header
-              title="Welcome Back 👋"
-              subtitle="Sign in to start managing your projects."
+              title={isSignUp ? "Create an Account 🎉" : "Welcome Back 👋"}
+              subtitle={
+                isSignUp
+                  ? "Sign up to start managing your projects."
+                  : "Sign in to start managing your projects."
+              }
             />
-            <Input suptitle="Email" placeholder="Example@email.com" />
-            <Input suptitle="Password" placeholder="At least 8 characters" />
+            <Input
+              suptitle="Email"
+              value={email}
+              placeholder="Example@email.com"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <Input
+              suptitle="Password"
+              value={password}
+              placeholder="At least 8 characters"
+              onChange={(e) => setPassword(e.target.value)}
+            />
             <Typography
               sx={{
                 alignSelf: "end",
@@ -91,6 +121,7 @@ const AuthPage = () => {
             <Button
               variant="contained"
               fullWidth
+              onClick={handleAuth}
               sx={{
                 height: isNote ? "40px" : "50px",
                 bgcolor: "#162D3A",
@@ -98,8 +129,11 @@ const AuthPage = () => {
                 fontSize: isMobile ? "12px" : "16px",
               }}
             >
-              Sign in
+              {isSignUp ? "Sign Up" : "Sign In"}
             </Button>
+            <Typography sx={{ color: "green", mt: 1, fontSize: "14px" }}>
+              {message}
+            </Typography>
             <Box
               sx={{
                 display: "flex",
@@ -122,20 +156,31 @@ const AuthPage = () => {
             >
               <ButtonSign
                 icon={GoogleIcon}
-                content={isNote ? "Google" : "Sign in with Google"}
+                content={
+                  isNote
+                    ? "Google"
+                    : `${isSignUp ? "Sign up" : "Sign in"} with Google`
+                }
               />
               <ButtonSign
                 icon={FacebookIcon}
-                content={isNote ? "Facebook" : "Sign in with Facebook"}
+                content={
+                  isNote
+                    ? "Facebook"
+                    : `${isSignUp ? "Sign up" : "Sign in"} with Facebook`
+                }
               />
             </Box>
             <Typography
               sx={{ m: "10px 0", fontSize: isMobile ? "10px" : "14px" }}
             >
-              Don't have an account?
-              <a className="text-blue-500 ml-2" href="#">
-                Sign up
-              </a>
+              {isSignUp ? "Already have an account?" : "Don't have an account?"}
+              <Button
+                onClick={() => setIsSignUp(!isSignUp)}
+                sx={{ ml: 1, color: "#1E4AE9" }}
+              >
+                {isSignUp ? "Sign in" : "Sign up"}
+              </Button>
             </Typography>
           </Box>
         </Box>

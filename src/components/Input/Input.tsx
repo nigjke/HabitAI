@@ -3,9 +3,11 @@ import { Box, TextField, Typography, useMediaQuery } from "@mui/material";
 type Props = {
   placeholder: string;
   suptitle: string;
+  value: string;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-const Input = ({ placeholder, suptitle }: Props) => {
+const Input = ({ placeholder, suptitle, value, onChange }: Props) => {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const isNote = useMediaQuery("(max-width: 1280px)");
   return (
@@ -16,6 +18,8 @@ const Input = ({ placeholder, suptitle }: Props) => {
         fullWidth
         label={placeholder}
         variant="outlined"
+        onChange={onChange}
+        value={value}
         InputProps={{
           sx: {
             height: isNote ? "40px" : "60px",
