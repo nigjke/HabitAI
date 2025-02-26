@@ -1,4 +1,13 @@
-import { Box, Button, Typography, useMediaQuery } from "@mui/material";
+import {
+  Alert,
+  Box,
+  Button,
+  IconButton,
+  InputAdornment,
+  Snackbar,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import ButtonSign from "../components/ButtonSign/ButtonSign";
 import Header from "../components/Header/Header";
 import Input from "../components/Input/Input";
@@ -8,8 +17,11 @@ import ThemeToggleButton from "../components/ThemeToggleButton/ThemeToggleButton
 import "./AuthPage.css";
 import { login, register } from "../api/auth";
 import { useState } from "react";
+import { useNavigate } from "react-router";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const AuthPage = () => {
+  const navigate = useNavigate();
   const isMobile = useMediaQuery("(max-width: 768px)");
   const isTablet = useMediaQuery("(max-width: 1024px)");
   const isNote = useMediaQuery("(max-width: 1280px)");
@@ -17,14 +29,33 @@ const AuthPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [isError, setIsError] = useState(false);
+
   const handleAuth = async () => {
-    const response = isSignUp
-      ? await register(email, password)
-      : await login(email, password);
-    setMessage(
-      response.message || (isSignUp ? "Регистрация успешна!" : "Успешный вход!")
-    );
+    try {
+      const response = isSignUp
+        ? await login(email, password)
+        : await register(email, password);
+
+      if (response.error) {
+        throw new Error(response.error);
+      }
+
+      setMessage(isSignUp ? "Регистрация успешна!" : "Успешный вход!");
+      setIsError(false);
+      setSnackbarOpen(true);
+
+      setTimeout(() => {
+        navigate("/dashboard"); // Перенаправление после успешного входа
+      }, 1500);
+    } catch (error) {
+      setMessage((error as Error).message || "Ошибка авторизации");
+      setIsError(true);
+      setSnackbarOpen(true);
+    }
   };
 
   return (
@@ -106,6 +137,16 @@ const AuthPage = () => {
               value={password}
               placeholder="At least 8 characters"
               onChange={(e) => setPassword(e.target.value)}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={() => setShowPassword(!showPassword)}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
             />
             <Typography
               sx={{
@@ -215,6 +256,13 @@ const AuthPage = () => {
       >
         © 2025 ALL RIGHTS RESERVED
       </Typography>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={3000}
+        onClose={() => setSnackbarOpen(false)}
+      >
+        <Alert severity={isError ? "error" : "success"}>{message}</Alert>
+      </Snackbar>
     </Box>
   );
 };
