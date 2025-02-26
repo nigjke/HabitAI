@@ -6,11 +6,26 @@ import GoogleIcon from "../assets/Google.svg";
 import FacebookIcon from "../assets/Facebook.svg";
 import ThemeToggleButton from "../components/ThemeToggleButton/ThemeToggleButton";
 import "./AuthPage.css";
+import { login, register } from "../api/auth";
+import { useState } from "react";
 
 const AuthPage = () => {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const isTablet = useMediaQuery("(max-width: 1024px)");
   const isNote = useMediaQuery("(max-width: 1280px)");
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
+  const [isSignUp, setIsSignUp] = useState(false);
+  const handleAuth = async () => {
+    const response = isSignUp
+      ? await register(email, password)
+      : await login(email, password);
+    setMessage(
+      response.message || (isSignUp ? "Регистрация успешна!" : "Успешный вход!")
+    );
+  };
 
   return (
     <Box
@@ -18,8 +33,8 @@ const AuthPage = () => {
         minHeight: "100vh",
         bgcolor: "background.default",
         display: "flex",
-        flexDirection: "column", // Фикс для прижатия футера
-        justifyContent: "space-between", // Контент + футер
+        flexDirection: "column",
+        justifyContent: "space-between",
         alignItems: "center",
         p: 2,
         boxSizing: "border-box",
@@ -27,12 +42,13 @@ const AuthPage = () => {
     >
       <Box
         sx={{
-          flexGrow: 1, // Контент займет всю высоту, оставляя место для футера
+          flexGrow: 1,
           display: "flex",
-          justifyContent: "center",
           flexDirection: isMobile ? "column-reverse" : "row",
           alignItems: "center",
+          justifyContent: "center",
           width: "100%",
+          gap: isMobile ? 2 : 4,
         }}
       >
         <Box
@@ -41,7 +57,7 @@ const AuthPage = () => {
             borderRadius: 7,
             width: "100%",
             maxWidth: "1200px",
-            padding: isTablet ? "100px 0" : "0",
+            padding: isTablet ? "50px 20px" : "20px",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
@@ -51,13 +67,14 @@ const AuthPage = () => {
             sx={{
               borderColor: "primary.main",
               borderRadius: 7,
-              maxWidth: "800px !important",
-              maxHeight: isMobile ? "100% " : "calc(100vh - 100px)",
+              maxWidth: "800px",
+              maxHeight: "100%",
               display: "flex",
               position: "relative",
               justifyContent: "center",
               flexDirection: "column",
               alignItems: "center",
+              padding: "20px",
             }}
           >
             <Box
@@ -71,11 +88,25 @@ const AuthPage = () => {
               <ThemeToggleButton />
             </Box>
             <Header
-              title="Welcome Back 👋"
-              subtitle="Sign in to start managing your projects."
+              title={isSignUp ? "Create an Account 🎉" : "Welcome Back 👋"}
+              subtitle={
+                isSignUp
+                  ? "Sign up to start managing your projects."
+                  : "Sign in to start managing your projects."
+              }
             />
-            <Input suptitle="Email" placeholder="Example@email.com" />
-            <Input suptitle="Password" placeholder="At least 8 characters" />
+            <Input
+              suptitle="Email"
+              value={email}
+              placeholder="Example@email.com"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <Input
+              suptitle="Password"
+              value={password}
+              placeholder="At least 8 characters"
+              onChange={(e) => setPassword(e.target.value)}
+            />
             <Typography
               sx={{
                 alignSelf: "end",
@@ -89,21 +120,25 @@ const AuthPage = () => {
             <Button
               variant="contained"
               fullWidth
+              onClick={handleAuth}
               sx={{
-                height: isNote ? "40px" : "60px",
+                height: isNote ? "40px" : "50px",
                 bgcolor: "#162D3A",
                 color: "#FFFFFF",
                 fontSize: isMobile ? "12px" : "16px",
               }}
             >
-              Sign in
+              {isSignUp ? "Sign Up" : "Sign In"}
             </Button>
+            <Typography sx={{ color: "green", mt: 1, fontSize: "14px" }}>
+              {message}
+            </Typography>
             <Box
               sx={{
                 display: "flex",
                 alignItems: "center",
                 width: "100%",
-                my: 3,
+                my: 2,
               }}
             >
               <Box sx={{ flexGrow: 1, borderTop: "1px solid #ccc" }}></Box>
@@ -112,28 +147,39 @@ const AuthPage = () => {
             </Box>
             <Box
               sx={{
-                display: isMobile ? "flex" : "block",
-                justifyContent: "space-between",
+                display: "flex",
+                justifyContent: "center",
                 width: "100%",
                 gap: "16px",
               }}
             >
               <ButtonSign
                 icon={GoogleIcon}
-                content={isMobile ? "Google" : "Sign in with Google"}
+                content={
+                  isNote
+                    ? "Google"
+                    : `${isSignUp ? "Sign up" : "Sign in"} with Google`
+                }
               />
               <ButtonSign
                 icon={FacebookIcon}
-                content={isMobile ? "Facebook" : "Sign in with Facebook"}
+                content={
+                  isNote
+                    ? "Facebook"
+                    : `${isSignUp ? "Sign up" : "Sign in"} with Facebook`
+                }
               />
             </Box>
             <Typography
               sx={{ m: "10px 0", fontSize: isMobile ? "10px" : "14px" }}
             >
-              Don't have an account?
-              <a className="text-blue-500 ml-2" href="#">
-                Sign up
-              </a>
+              {isSignUp ? "Already have an account?" : "Don't have an account?"}
+              <Button
+                onClick={() => setIsSignUp(!isSignUp)}
+                sx={{ ml: 1, color: "#1E4AE9" }}
+              >
+                {isSignUp ? "Sign in" : "Sign up"}
+              </Button>
             </Typography>
           </Box>
         </Box>
@@ -142,12 +188,9 @@ const AuthPage = () => {
             borderRadius: 7,
             width: "100%",
             maxWidth: "1200px",
-            height: isMobile ? "300px" : "calc(100vh - 100px)",
+            height: isMobile ? "250px" : "calc(100vh - 150px)",
             display: "flex",
-            flexDirection: "column",
             boxSizing: "border-box",
-            minHeight: "180px",
-            padding: isMobile ? "20px 0" : "20px",
           }}
         >
           <Box
