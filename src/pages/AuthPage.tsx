@@ -1,4 +1,13 @@
-import { Box, Button, Typography, useMediaQuery } from "@mui/material";
+import {
+  Alert,
+  Box,
+  Button,
+  IconButton,
+  InputAdornment,
+  Snackbar,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import ButtonSign from "../components/ButtonSign/ButtonSign";
 import Header from "../components/Header/Header";
 import Input from "../components/Input/Input";
@@ -8,8 +17,11 @@ import ThemeToggleButton from "../components/ThemeToggleButton/ThemeToggleButton
 import "./AuthPage.css";
 import { login, register } from "../api/auth";
 import { useState } from "react";
+import { useNavigate } from "react-router";
+import { Clear, Visibility, VisibilityOff } from "@mui/icons-material";
 
 const AuthPage = () => {
+  const navigate = useNavigate();
   const isMobile = useMediaQuery("(max-width: 768px)");
   const isTablet = useMediaQuery("(max-width: 1024px)");
   const isNote = useMediaQuery("(max-width: 1280px)");
@@ -17,14 +29,64 @@ const AuthPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [isError, setIsError] = useState(false);
+
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    return emailRegex.test(email);
+  };
+
+  const validatePassword = (password: string) => {
+    return password.length >= 8; // Пароль должен быть минимум 8 символов
+  };
+
   const handleAuth = async () => {
-    const response = isSignUp
-      ? await register(email, password)
-      : await login(email, password);
-    setMessage(
-      response.message || (isSignUp ? "Регистрация успешна!" : "Успешный вход!")
-    );
+    // Валидация
+    if (!email || !password) {
+      setMessage("Пожалуйста, заполните все поля.");
+      setIsError(true);
+      setSnackbarOpen(true);
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      setMessage("Неверный формат email.");
+      setIsError(true);
+      setSnackbarOpen(true);
+      return;
+    }
+
+    if (!validatePassword(password)) {
+      setMessage("Пароль должен быть минимум 8 символов.");
+      setIsError(true);
+      setSnackbarOpen(true);
+      return;
+    }
+
+    try {
+      const response = isSignUp
+        ? await register(email, password)
+        : await login(email, password);
+
+      if (response.error) {
+        throw new Error(response.error);
+      }
+
+      setMessage(isSignUp ? "Регистрация успешна!" : "Успешный вход!");
+      setIsError(false);
+      setSnackbarOpen(true);
+
+      setTimeout(() => {
+        navigate("/dashboard"); // Перенаправление после успешного входа
+      }, 1500);
+    } catch (error) {
+      setMessage((error as Error).message || "Ошибка авторизации");
+      setIsError(true);
+      setSnackbarOpen(true);
+    }
   };
 
   return (
@@ -100,12 +162,42 @@ const AuthPage = () => {
               value={email}
               placeholder="Example@email.com"
               onChange={(e) => setEmail(e.target.value)}
+              endAdornment={
+                email ? ( // Показываем иконку очистки только если поле не пустое
+                  <InputAdornment position="end">
+                    <IconButton
+                      color="inherit"
+                      onClick={() => setEmail("")} // Очищаем поле при нажатии
+                      edge="end"
+                    >
+                      <Clear sx={{ color: "black" }} />{" "}
+                      {/* Черная иконка очистки */}
+                    </IconButton>
+                  </InputAdornment>
+                ) : null // Если email пустой, возвращаем null
+              }
             />
             <Input
               suptitle="Password"
               value={password}
               placeholder="At least 8 characters"
               onChange={(e) => setPassword(e.target.value)}
+              type={showPassword ? "text" : "password"}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    color={"inherit"} // Наследует цвет от родителя
+                    onClick={() => setShowPassword(!showPassword)}
+                    edge="end"
+                  >
+                    {showPassword ? (
+                      <VisibilityOff sx={{ color: "#373737" }} /> // Устанавливаем черный цвет для иконки
+                    ) : (
+                      <Visibility sx={{ color: "#373737" }} /> // Устанавливаем черный цвет для иконки
+                    )}
+                  </IconButton>
+                </InputAdornment>
+              }
             />
             <Typography
               sx={{
@@ -130,9 +222,6 @@ const AuthPage = () => {
             >
               {isSignUp ? "Sign Up" : "Sign In"}
             </Button>
-            <Typography sx={{ color: "green", mt: 1, fontSize: "14px" }}>
-              {message}
-            </Typography>
             <Box
               sx={{
                 display: "flex",
@@ -215,6 +304,13 @@ const AuthPage = () => {
       >
         © 2025 ALL RIGHTS RESERVED
       </Typography>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={3000}
+        onClose={() => setSnackbarOpen(false)}
+      >
+        <Alert severity={isError ? "error" : "success"}>{message}</Alert>
+      </Snackbar>
     </Box>
   );
 };
