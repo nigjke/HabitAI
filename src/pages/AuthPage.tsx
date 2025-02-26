@@ -17,8 +17,7 @@ const AuthPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
-  const [isSignUp, setIsSignUp] = useState(false); // 🔄 Переключатель между входом и регистрацией
-
+  const [isSignUp, setIsSignUp] = useState(false);
   const handleAuth = async () => {
     const response = isSignUp
       ? await register(email, password)
