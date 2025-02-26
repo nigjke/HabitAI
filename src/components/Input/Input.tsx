@@ -5,8 +5,9 @@ type Props = {
   placeholder: string;
   suptitle: string;
   value: string;
+  type?: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  endAdornment?: JSX.Element | null; // Optional adornment component. For example, a PasswordField with a toggle password button.
+  endAdornment?: JSX.Element | null;
 };
 
 const Input = ({
@@ -14,6 +15,7 @@ const Input = ({
   suptitle,
   value,
   onChange,
+  type,
   endAdornment,
 }: Props) => {
   const isMobile = useMediaQuery("(max-width: 768px)");
@@ -24,9 +26,10 @@ const Input = ({
       <TextField
         id="outlined-basic"
         fullWidth
-        label={placeholder}
+        placeholder={placeholder}
         variant="outlined"
         onChange={onChange}
+        type={type}
         value={value}
         InputProps={{
           endAdornment: endAdornment,
@@ -36,8 +39,13 @@ const Input = ({
             alignItems: "center",
             borderRadius: "16px !important",
             bgcolor: "#F7FBFF",
-            color: "#000000 !important",
+            color: "#373737 !important",
             fontSize: isMobile ? "10px" : "14px",
+          },
+        }}
+        sx={{
+          "& .MuiInputBase-input::placeholder": {
+            opacity: value ? 0 : 1,
           },
         }}
       />
