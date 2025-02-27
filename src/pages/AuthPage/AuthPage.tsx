@@ -8,14 +8,14 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import ButtonSign from "../components/ButtonSign/ButtonSign";
-import Header from "../components/Header/Header";
-import Input from "../components/Input/Input";
-import GoogleIcon from "../assets/Google.svg";
-import FacebookIcon from "../assets/Facebook.svg";
-import ThemeToggleButton from "../components/ThemeToggleButton/ThemeToggleButton";
+import ButtonSign from "../../components/ButtonSign/ButtonSign";
+import Header from "./components/Header/Header";
+import Input from "../../components/Input/Input";
+import GoogleIcon from "../../assets/icon/Google.svg";
+import FacebookIcon from "../../assets/icon/Facebook.svg";
+import ThemeToggleButton from "../../components/ThemeToggleButton/ThemeToggleButton";
 import "./AuthPage.css";
-import { login, register } from "../api/auth";
+import { login, register } from "../../api/auth";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { Clear, Visibility, VisibilityOff } from "@mui/icons-material";
@@ -283,7 +283,7 @@ const AuthPage = () => {
           }}
         >
           <Box
-            className="bg-[url('../assets/Art.jpg')] bg-cover bg-center w-full"
+            className="bg-[url('../../assets/image/Art.jpg')] bg-cover bg-center w-full"
             sx={{
               width: "100%",
               height: "100%",
