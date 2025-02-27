@@ -1,10 +1,7 @@
 import { IconButton } from "@mui/material";
 import { Brightness4, Brightness7 } from "@mui/icons-material";
 import { useThemeContext } from "../../Context/Context";
-
-interface ThemeToggleButtonProps {
-  sx?: object;
-}
+import { ThemeToggleButtonProps } from "../../schemas/interfaces/ThemeToggleButtonProps";
 
 export default function ThemeToggleButton({ sx }: ThemeToggleButtonProps) {
   const { toggleTheme, mode } = useThemeContext();
