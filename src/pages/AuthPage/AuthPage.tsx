@@ -8,7 +8,7 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import ButtonSign from "../../components/ButtonSign/ButtonSign";
+import ButtonSign from "./components/ButtonSign/ButtonSign";
 import Header from "./components/Header/Header";
 import Input from "../../components/Input/Input";
 import GoogleIcon from "../../assets/icon/Google.svg";
