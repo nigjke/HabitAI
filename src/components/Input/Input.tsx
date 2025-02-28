@@ -1,14 +1,5 @@
 import { Box, TextField, Typography, useMediaQuery } from "@mui/material";
-import { JSX } from "react";
-
-type Props = {
-  placeholder: string;
-  suptitle: string;
-  value: string;
-  type?: string;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  endAdornment?: JSX.Element | null;
-};
+import { InputProps } from "../../schemas/types/InputProps";
 
 const Input = ({
   placeholder,
@@ -17,7 +8,7 @@ const Input = ({
   onChange,
   type,
   endAdornment,
-}: Props) => {
+}: InputProps) => {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const isNote = useMediaQuery("(max-width: 1280px)");
   return (

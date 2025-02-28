@@ -1,11 +1,7 @@
 import React, { createContext, useContext, useMemo, useState } from "react";
 import { ThemeProvider, createTheme, PaletteMode } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
-
-interface ThemeContextType {
-  toggleTheme: () => void;
-  mode: PaletteMode;
-}
+import { ThemeContextType } from "../schemas/interfaces/ThemeContextType";
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
