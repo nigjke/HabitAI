@@ -1,18 +1,21 @@
 import json
 from langchain import __version__ as langchain_version
+import pinecone 
+import os
 
 def lambda_handler(event, context):
-    lib_status = {
-        "langchain_installed": True,
-        "version": langchain_version
-    }
-    dummy_key = "DUMMY_KEY_12345"
+    PINECONE_API_KEY = os.environ.get('PINECONE_API_KEY')
+    PINECONE_ENVIRONMENT = os.environ.get('PINECONE_ENVIRONMENT')
+    PINECONE_INDEX_NAME = os.environ.get('PINECONE_INDEX_NAME')
     
     return {
         'statusCode': 200,
         'body': json.dumps({
             "message": "LangChain подключен успешно!",
-            "library_info": lib_status,
-            "api_key_check": dummy_key
+            "version Langchain": langchain_version,
+            "version Pinecone" : pinecone.__version__,
+            "pinecone_api_key_check": PINECONE_API_KEY,
+            "pinecone_environment_check": PINECONE_ENVIRONMENT,
+            "pinecone_index_name_check": PINECONE_INDEX_NAME
         })
     }
